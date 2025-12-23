@@ -1,0 +1,4 @@
+{
+  "*.md": "prettier --write",
+  "*.tf": ["terraform fmt", "tflint --filter"]
+}
