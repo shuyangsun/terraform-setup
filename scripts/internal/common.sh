@@ -31,3 +31,25 @@ version_gte() {
   local actual="$2"
   [ "$(printf '%s\n' "$required" "$actual" | sort -V | head -n1)" = "$required" ]
 }
+
+# Install a package using the system package manager.
+# Arguments:
+#   $@ - commands to run for installation
+# Returns:
+#   0 if installation succeeds, 1 otherwise
+install_package() {
+  if [[ "$(uname)" == "Darwin" ]]; then
+    if ! command -v brew &> /dev/null; then
+      error "Homebrew is not installed. Please install Homebrew first."
+      return 1
+    fi
+    for cmd in "$@"; do
+      eval "$cmd" || return 1
+    done
+  # TODO: Add Linux support (apt, yum, etc.)
+  # TODO: Add Windows support (winget, choco, etc.)
+  else
+    error "Automatic installation is not supported on this platform."
+    return 1
+  fi
+}
