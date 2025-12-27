@@ -18,6 +18,12 @@
         "proseWrap": "always",
         "embeddedLanguageFormatting": "auto"
       }
+    },
+    {
+      "files": "*.{yaml,yml}",
+      "options": {
+        "singleQuote": true
+      }
     }
   ]
 }
