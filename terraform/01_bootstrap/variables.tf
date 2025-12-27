@@ -18,16 +18,11 @@ variable "company_id" {
   }
 }
 
-variable "regions" {
-  description = "Regions to deploy the Terraform state S3 bucket. If the list has more than one value, the first value will be used as the primary region."
-  type        = list(string)
+variable "region" {
+  description = "Region to deploy the Terraform state S3 bucket."
+  type        = string
 
-  default = ["us-east-1"]
-
-  validation {
-    condition     = length(var.regions) >= 1
-    error_message = "At least one region must be specified."
-  }
+  default = "us-east-1"
 }
 
 variable "environments" {
