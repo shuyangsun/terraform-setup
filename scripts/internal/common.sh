@@ -18,3 +18,16 @@ success() {
 error() {
     echo -e "${CROSS} $1"
 }
+
+# Check if actual version is greater than or equal to required version.
+# Uses semantic versioning comparison.
+# Arguments:
+#   $1 - required version (e.g., "2.0.0")
+#   $2 - actual version (e.g., "2.1.0")
+# Returns:
+#   0 if actual >= required, 1 otherwise
+version_gte() {
+    local required="$1"
+    local actual="$2"
+    [ "$(printf '%s\n' "$required" "$actual" | sort -V | head -n1)" = "$required" ]
+}

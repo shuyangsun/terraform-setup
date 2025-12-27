@@ -4,19 +4,18 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/../common.sh"
 
-REQUIRED_AWS_VERSION="2.32.22"
+MIN_AWS_VERSION="2.32.22"
 
 echo "Checking AWS CLI installation..."
 if ! command -v aws &> /dev/null; then
-    error "AWS CLI is not installed. Please install AWS CLI $REQUIRED_AWS_VERSION or above."
+    error "AWS CLI is not installed. Please install AWS CLI $MIN_AWS_VERSION or above."
     exit 1
 fi
 
 AWS_VERSION=$(aws --version | awk '{print $1}' | cut -d'/' -f2)
 
-# Compare versions
-if [ "$(printf '%s\n' "$REQUIRED_AWS_VERSION" "$AWS_VERSION" | sort -V | head -n1)" != "$REQUIRED_AWS_VERSION" ]; then
-    error "AWS CLI version $AWS_VERSION is below the required version $REQUIRED_AWS_VERSION"
+if ! version_gte "$MIN_AWS_VERSION" "$AWS_VERSION"; then
+    error "AWS CLI version $AWS_VERSION is below the required minimum version $MIN_AWS_VERSION"
     exit 1
 fi
 success "AWS CLI version $AWS_VERSION is installed."
