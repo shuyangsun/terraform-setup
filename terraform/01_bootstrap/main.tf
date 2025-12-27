@@ -40,7 +40,7 @@ resource "aws_s3_bucket_versioning" "enable_versioning" {
 
 resource "aws_kms_key" "bucket_encryption_key" {
   for_each                = local.env_mapping
-  description             = each.value.kms_key_description
+  description             = "Used to encrypt Terraform state objects for bucket \"${var.company_id}-tfstate-${each.key}-${var.region}\"."
   deletion_window_in_days = 10
   enable_key_rotation     = true
 
