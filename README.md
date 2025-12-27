@@ -1,4 +1,4 @@
-# Startup Cloud Infrastructure Bootstrap
+# Startup Setup for Non-Technical People
 
 Set up the foundational infrastructure to bootstrap the rest of your cloud
 environment for your exciting new startup.
