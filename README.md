@@ -6,7 +6,7 @@ required.
 ## Getting Started
 
 ```bash
-NEW_STARTUP_DIR="~/code/${USER}-new-startup" \
+NEW_STARTUP_DIR="${HOME}/code/${USER}-new-startup" \
   && mkdir -p ${NEW_STARTUP_DIR} \
   && git clone https://github.com/shuyangsun/new-startup.git ${NEW_STARTUP_DIR} \
   && cd ${NEW_STARTUP_DIR} \
