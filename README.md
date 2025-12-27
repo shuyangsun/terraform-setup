@@ -1,3 +1,3 @@
-# Cloud Backup
+# Startup Cloud Infrastructure Bootstrap
 
-Infrastructure code to setup cloud storage for NAS backup.
+Set up the infrastructure to bootstrap the rest of the infrastructure for your exciting new startup.
