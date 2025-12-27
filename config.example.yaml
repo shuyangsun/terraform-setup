@@ -1,0 +1,4 @@
+%YAML 1.2
+---
+# Startup configuration
+company: MyCompany # Must be CamelCase

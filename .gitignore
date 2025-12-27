@@ -16,3 +16,6 @@ node_modules/
 .terraform/
 *.tfstate
 *.tfstate.backup
+
+# Configurations
+config.yaml
