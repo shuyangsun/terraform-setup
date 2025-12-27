@@ -23,6 +23,7 @@ check_brew_version() {
 echo "Checking Homebrew installation..."
 if command -v brew &> /dev/null; then
   check_brew_version
+  brew update
   exit 0
 fi
 

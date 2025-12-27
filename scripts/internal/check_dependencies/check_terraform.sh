@@ -9,8 +9,23 @@ MIN_TERRAFORM_VERSION="1.14.3"
 check_terraform_version() {
   TERRAFORM_VERSION=$(terraform -version | head -n 1 | sed 's/Terraform v//')
   if ! version_gte "$MIN_TERRAFORM_VERSION" "$TERRAFORM_VERSION"; then
-    error "Terraform version $TERRAFORM_VERSION is below the required minimum version $MIN_TERRAFORM_VERSION"
-    exit 1
+    warning "Terraform version $TERRAFORM_VERSION is below the required minimum version $MIN_TERRAFORM_VERSION"
+    echo "Would you like to upgrade Terraform? Type 'yes' to confirm:"
+    read -r response
+    if [[ "$response" != "yes" ]]; then
+      error "Terraform upgrade declined. Please upgrade Terraform to $MIN_TERRAFORM_VERSION or above manually."
+      exit 1
+    fi
+    echo "Upgrading Terraform..."
+    if ! install_package "brew upgrade hashicorp/tap/terraform"; then
+      error "Failed to upgrade Terraform. Please upgrade Terraform to $MIN_TERRAFORM_VERSION or above manually."
+      exit 1
+    fi
+    TERRAFORM_VERSION=$(terraform -version | head -n 1 | sed 's/Terraform v//')
+    if ! version_gte "$MIN_TERRAFORM_VERSION" "$TERRAFORM_VERSION"; then
+      error "Terraform version $TERRAFORM_VERSION is still below the required minimum version $MIN_TERRAFORM_VERSION after upgrade."
+      exit 1
+    fi
   fi
   success "Terraform version $TERRAFORM_VERSION is installed."
 }

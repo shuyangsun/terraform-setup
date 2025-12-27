@@ -9,8 +9,23 @@ MIN_GH_VERSION="2.83.2"
 check_gh_version() {
   GH_VERSION=$(gh --version | head -n 1 | sed 's/gh version //' | awk '{print $1}')
   if ! version_gte "$MIN_GH_VERSION" "$GH_VERSION"; then
-    error "GitHub CLI version $GH_VERSION is below the required minimum version $MIN_GH_VERSION"
-    exit 1
+    warning "GitHub CLI version $GH_VERSION is below the required minimum version $MIN_GH_VERSION"
+    echo "Would you like to upgrade GitHub CLI? Type 'yes' to confirm:"
+    read -r response
+    if [[ "$response" != "yes" ]]; then
+      error "GitHub CLI upgrade declined. Please upgrade GitHub CLI to $MIN_GH_VERSION or above manually."
+      exit 1
+    fi
+    echo "Upgrading GitHub CLI..."
+    if ! install_package "brew upgrade gh"; then
+      error "Failed to upgrade GitHub CLI. Please upgrade GitHub CLI to $MIN_GH_VERSION or above manually."
+      exit 1
+    fi
+    GH_VERSION=$(gh --version | head -n 1 | sed 's/gh version //' | awk '{print $1}')
+    if ! version_gte "$MIN_GH_VERSION" "$GH_VERSION"; then
+      error "GitHub CLI version $GH_VERSION is still below the required minimum version $MIN_GH_VERSION after upgrade."
+      exit 1
+    fi
   fi
   success "GitHub CLI version $GH_VERSION is installed."
 }
